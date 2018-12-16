@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Thank you!</title>
+    </head>
+    <body>
+
+        <h2>Edit your info</h2>
+
+        <form action="#" th:action="@{/edit}" method="POST">
+            <p><label for="name">Name</label>: <input type="text" name="name" id="name" th:value="${user.name}"/></p>
+            <p><label for="address">Address (html supported)</label>: <input type="text" name="address" id="address" th:value="${user.address}"/></p>
+            <p><label for="creditcard">Credit card</label>: <input type="text" name="creditcard" id="creditcard" th:value="${user.creditcard}"/></p>
+            <input type="hidden" th:value="${user.getId()}" name="userId" id="userId"/>
+            <p><input type="submit" value="Edit" /></p>
+        </form>
+
+        <a href="/form">
+            <button>Back to front page</button>
+        </a>
+
+    </body>
+</html>

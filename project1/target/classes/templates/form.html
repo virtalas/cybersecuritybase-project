@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Sign up form</title>
+    </head>
+    <body>
+
+        <h2>Sign up to the event using this form</h2>
+
+        <form action="#" th:action="@{/form}" method="POST">
+            <p><label for="name">Name</label>: <input type="text" name="name" id="name"/></p>
+            <p><label for="address">Address (html supported)</label>: <input type="text" name="address" id="address"/></p>
+            <p><label for="creditcard">Credit card</label>: <input type="text" name="creditcard" id="creditcard"/></p>
+            <p><input type="submit" value="Submit" /></p>
+        </form>
+        
+        <br /><br />
+        
+        <h2>Edit your info</h2>
+
+        <a th:href="@{'/edit/' + ${userId}}">
+            <button>Edit</button>
+        </a>
+        
+        <br /><br />
+        
+        <h2>Registered users</h2>
+        <ul th:each="user : ${list}">
+            <li><span th:text="${user}"></span>, <span th:utext="${user.address}"></span></li>
+        </ul>
+        
+        <h2>Admin login</h2>
+        <form action="#" th:action="@{/admin/login}" method="POST">
+            <p><label>Username</label>: <input type="text" name="username" id="username"/></p>
+            <p><label>Password</label>: <input type="text" name="password" id="password"/></p>
+            <p><input type="submit" value="Login" /></p>
+        </form>
+        
+    </body>
+</html>

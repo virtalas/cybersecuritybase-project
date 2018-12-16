@@ -1,0 +1,6 @@
+/Users/lasvirt/Documents/Koulu/Yliopisto/cybersecuritybase/project1/src/main/java/sec/project/CyberSecurityBaseProjectApplication.java
+/Users/lasvirt/Documents/Koulu/Yliopisto/cybersecuritybase/project1/src/main/java/sec/project/config/CustomUserDetailsService.java
+/Users/lasvirt/Documents/Koulu/Yliopisto/cybersecuritybase/project1/src/main/java/sec/project/domain/Signup.java
+/Users/lasvirt/Documents/Koulu/Yliopisto/cybersecuritybase/project1/src/main/java/sec/project/config/SecurityConfiguration.java
+/Users/lasvirt/Documents/Koulu/Yliopisto/cybersecuritybase/project1/src/main/java/sec/project/controller/SignupController.java
+/Users/lasvirt/Documents/Koulu/Yliopisto/cybersecuritybase/project1/src/main/java/sec/project/repository/SignupRepository.java
