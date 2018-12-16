@@ -2,12 +2,13 @@
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 {\*\expandedcolortbl;;}
-\paperw15477\paperh10374\margl1440\margr1440\vieww10800\viewh14000\viewkind0
+\paperw15477\paperh10374\margl1440\margr1440\vieww13860\viewh16200\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
-\f0\fs30 \cf0 Vulnerabilities:\
+\f0\fs30 \cf0 Source code: https://github.com/virtalas/cybersecuritybase-project\
 \
-Cross-Site Scripting\
+Issue: Cross-Site Scripting\
+Steps to reproduce:\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf0 0. Go to localhost:8080\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
@@ -23,7 +24,12 @@ Cross-Site Scripting\
 4. Press Back to front page.\
 5. User submitted script is run by the client browser.\
 \
-Broken Access control\
+This vulnerability allows users to submit any script with the html script tag. The input is not validated or escaped in any way, and the html template renders blindly any html given to it. This results in a cross-site scripting vulnerability, where scripts submitted by the user or other users will be run as soon as the page is loaded. The bulnerability can be easily spotted by inputting a script such as the one listed above. The input form also tells you it supports html. It could be fixed by removing all script tags from the address field input, or better yet not use html at all, and rather something like markdown.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 Issue: Broken Access control\
+\pard\pardeftab720\partightenfactor0
+\cf0 Steps to reproduce:\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf0 0. Go to localhost:8080\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
@@ -39,16 +45,24 @@ Broken Access control\
 6. Change the address to localhost:8080/edit/1 and go to that page.\
 7. Change the Name or Address fields to anything.\
 8. Press Edit.\
-9. You were able to change another users info.\
+9. You were able to change another user's info.\
 \
-Sensitive Data Exposure\
+This vulnerability is caused by not verifying who the user is before processing the request to change that user's information, and by having a simple URL for the edit page. It is easy to spot as the URL has clearly an ID or sorts as a path variable. The best way to fix it would be to implement a login functionality where the user is identified with for example a username and a password, and the authorization is checked before even showing the edit page, and before the POST request is processed. Even without identification you could implement a randomly generated, long id for the path variable to make it impossible to guess, but even then sharing the link leads to the same problem.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 Issue: Sensitive Data Exposure\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 Steps to reproduce:\
 0. Go to localhost:8080\
 1. Press Edit.\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf0 2. Change the address to localhost:8080/edit/1 and go to that page.\
 3. Observe the credit card number and sensitive data exposure.\
 \
-Security Misconfiguration\
+This vulnerability is caused partly by not authorizing users before sending the user information to them. But another problem is showing the credit card number at all. It would be more secure to not show the number at all, or show only a part of it, which should be identifiable enough for the user who submitted it, but not enough for an attacker to misuse that information. Even better would be to not store the credit card information at all, and let the payment be handled by a trusted third party solution.\
+\
+Issue: Security Misconfiguration\
+Steps to reproduce:\
 0. Go to localhost:8080\
 1. Input\
         default\
@@ -61,16 +75,20 @@ Security Misconfiguration\
 5. Press Clear database.\
 6. Performed admin activities without being an admin.\
 \
-Broken Access control\
+This vulnerability is caused by dangerously lazy security configuration where the defaults were not changed at all for production, and probably not at any point during development either. Since the username and password are the same and easily guessable, you could get access even by accident. While it is definitely the fault of the user (programmer/system admin in this case), the framework used could also provide some fail safe mechanism, for example not accepting default passwords and requiring to change them from the start.\
+\
+Issue: Broken Access control\
+Steps to reproduce:\
 0. Go to localhost:8080\
 1. Change the address to localhost:8080/admin/settings and go to that page.\
 2. Press Clear database.\
 6. Performed admin activities without being an admin, by guessing the URL.\
 \
-can even be done with postman\
+This vulnerability is caused by not having any real login mechanism or authorization, but instead inputting the username and password only redirect to a page with an already easy URL to guess by testing. On the page the administration actions can be performed without any further authorization. Fixing this would require preferrably a login system to actually identify admins and authorize requests.\
 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 SQL injection\
+\cf0 Issue: SQL injection\
+Steps to reproduce:\
 0. Go to localhost:8080\
 1. Input\
         name', 'adr'); drop table Signup; --\
@@ -80,4 +98,5 @@ can even be done with postman\
     or anything else to the Address field.\
 3. Press Submit.\
 4. Table Signup is deleted from the database and the site crashes.\
-}
+\
+This vulnerability is caused by not sanitizing user inputs and using a bare bones approach to build the SQL query. This can be found by just inputting a ' character which messes up the query. Ideally, the input should be sanizited, but really the way the SQL query is built should be fixed. Instead of simple string concatenation, it should use prepared statements that don't inject the variables into the actual query string.}

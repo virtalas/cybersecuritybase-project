@@ -10,12 +10,3 @@ public class CyberSecurityBaseProjectApplication {
         SpringApplication.run(CyberSecurityBaseProjectApplication.class);
     }
 }
-
-/*
-
-Vulnerabilities:
-
-- SQL injection
-- 
-
-*/
